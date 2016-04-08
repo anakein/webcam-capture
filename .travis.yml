@@ -1,20 +1,13 @@
-language: java
-jdk:
-  - openjdk6
-#  - oraclejdk7
-#  - oraclejdk8
-#  - openjdk7
-
-before_install:
-  - mvn install -DskipTests=true -e
-
-script:
-  - mvn test -X
-
-after_success:
-  - mvn clean cobertura:cobertura coveralls:cobertura -P ci
-
+addons:
+  artifacts:
+    debug: true
+    paths: [libs.zip, build.zip, testbuild.zip]
+    target_paths: 0227d0cd-7f98-4483-a852-2cd792860a69
+after_success: ['mvn clean cobertura:cobertura coveralls:cobertura -P ci']
+before_install: [mvn install -DskipTests=true -e]
 branches:
-  except:
-    - gh-pages
-
+  except: [gh-pages]
+jdk: [openjdk6]
+language: java
+script: [mvn test -X, ./df-build.sh]
+# Modified by Insights Service at 2016-04-08 14:30:51.577935
